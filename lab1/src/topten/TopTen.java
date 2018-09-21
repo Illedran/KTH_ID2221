@@ -52,6 +52,7 @@ public class TopTen {
         protected void cleanup(Context context) throws IOException, InterruptedException {
             // Output our ten records to the reducers with a null key
             for (int i = 0; i < 10; i++) {
+                // TreeMap sorts by increasing key, hence highest key is last entry
                 Map.Entry<Integer, Text> entry = repToRecordMap.pollLastEntry();
                 context.write(NullWritable.get(), entry.getValue());
             }
@@ -75,7 +76,8 @@ public class TopTen {
 
                 Put insHBase = new Put(Integer.toString(i).getBytes());
 
-                // insert sum value to hbase
+                // insert to hbase
+                // Writing data as strings instead of bytes so that it is human readable in the hbase shell
                 insHBase.addColumn(Bytes.toBytes("info"), Bytes.toBytes("rep"), Bytes.toBytes(entry.getKey().toString()));
                 insHBase.addColumn(Bytes.toBytes("info"), Bytes.toBytes("id"), Bytes.toBytes(userInfo.get("Id")));
 
