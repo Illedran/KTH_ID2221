@@ -44,6 +44,7 @@ public class TopTen {
 
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             Map<String, String> userInfo = transformXmlToMap(value.toString());
+            // Check that the XML parsing succeeded and Id is valid, as specified in assignment
             if (!userInfo.isEmpty() && userInfo.get("Id") != null) {
                 repToRecordMap.put(parseInt(userInfo.get("Reputation")), new Text(value));
             }
@@ -52,7 +53,7 @@ public class TopTen {
         protected void cleanup(Context context) throws IOException, InterruptedException {
             // Output our ten records to the reducers with a null key
             for (int i = 0; i < 10; i++) {
-                // TreeMap sorts by increasing key, hence highest key is last entry
+                // TreeMap sorts by increasing key, hence last key (rep) is highest entry
                 Map.Entry<Integer, Text> entry = repToRecordMap.pollLastEntry();
                 context.write(NullWritable.get(), entry.getValue());
             }
@@ -66,9 +67,8 @@ public class TopTen {
         public void reduce(NullWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             for (Text value : values) {
                 Map<String, String> userInfo = transformXmlToMap(value.toString());
-                if (!userInfo.isEmpty() && userInfo.get("Id") != null) {
-                    repToRecordMap.put(parseInt(userInfo.get("Reputation")), new Text(value));
-                }
+                // no need to check for validity as rows made it through the mapper
+                repToRecordMap.put(parseInt(userInfo.get("Reputation")), new Text(value));
             }
             for (int i = 0; i < 10; i++) {
                 Map.Entry<Integer, Text> entry = repToRecordMap.pollLastEntry();
