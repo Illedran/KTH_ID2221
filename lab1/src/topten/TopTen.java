@@ -53,7 +53,7 @@ public class TopTen {
         protected void cleanup(Context context) throws IOException, InterruptedException {
             // Output our ten records to the reducers with a null key
             for (int i = 0; i < 10; i++) {
-                // TreeMap sorts by increasing key, hence last key (rep) is highest entry
+                // TreeMap sorts by increasing key, hence the last 10 entries are highest rep
                 Map.Entry<Integer, Text> entry = repToRecordMap.pollLastEntry();
                 context.write(NullWritable.get(), entry.getValue());
             }

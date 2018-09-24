@@ -959,3 +959,8 @@ ASALocalRun/
 lab1/hadoop/
 lab1/hdfs/
 lab1/hbase/
+lab1/src/topten/topten_classes/
+
+lab2/spark/
+lab2/src/notebooks/data/pagecounts
+lab2/src/notebooks/data/apache
