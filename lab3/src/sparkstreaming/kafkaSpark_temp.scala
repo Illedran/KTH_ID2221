@@ -56,19 +56,21 @@ object KafkaSpark {
     // measure the average value for each key in a stateful manner
     def mappingFunc(key: String, value: Option[Double], state: State[Double]): (String, Double) = {
 	    // <FILL IN>
+	    val result
+	    return result
     }
 
+    // initialize an empty state RDD 
+    val initialRDD = ssc.sparkContext.parallelize(List())
 
 
-    val stateDstream = pairs.mapWithState(StateSpec.function(mappingFunc).initialState())
+    val stateDstream = pairs.mapWithState(StateSpec.function(mappingFunc).initialState(initialRDD))
 
-    // store the result in Cassandra
-    //stateDstream.<FILL IN>
-
-
-     val stateDstream = wordDstream.mapWithState(
-      StateSpec.function(mappingFunc).initialState(initialRDD))
+    // TODO: store the result in Cassandra
+    // But where should I store it though?? Maybe within the mapping Func?         
     stateDstream.print()
+
+
     ssc.start()
     ssc.awaitTermination()
 
