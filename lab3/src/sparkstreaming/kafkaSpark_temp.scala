@@ -40,9 +40,11 @@ object KafkaSpark {
     	"group.id" -> "kafka-spark-streaming",
     	"zookeeper.connection.timeout.ms" -> "1000"
     )
-    val topicsSet = "avg".toSet
-    
-    val kafkaStream = KafkaUtils.createDirectStream[String, Integer, StringDecoder, IntegerDecoder](
+    // val topic = "avg"
+    val topicsSet = Set("avg")
+
+
+    val kafkaStream = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](
     	ssc, kafkaConf, topicsSet)
 
 	// https://blog.csdn.net/zhoudetiankong/article/details/77504026
@@ -54,21 +56,22 @@ object KafkaSpark {
 
 
     // measure the average value for each key in a stateful manner
-    def mappingFunc(key: String, value: Option[Double], state: State[Double]): (String, Double) = {
-	    // <FILL IN>
-	    val result
-	    return result
-    }
+    // def mappingFunc(key: String, value: Option[Double], state: State[Double]): (String, Double) = {
+	   //  // <FILL IN>
+	   //  val result = ("heelo", 1.0)
+	   //  return result
+    // }
 
-    // initialize an empty state RDD 
-    val initialRDD = ssc.sparkContext.parallelize(List())
+    // // initialize an empty state RDD 
+    // val initialRDD = ssc.sparkContext.parallelize(List())
 
 
-    val stateDstream = pairs.mapWithState(StateSpec.function(mappingFunc).initialState(initialRDD))
+    // val stateDstream = pairs.mapWithState(StateSpec.function(mappingFunc).initialState(initialRDD))
 
     // TODO: store the result in Cassandra
     // But where should I store it though?? Maybe within the mapping Func?         
-    stateDstream.print()
+    // stateDstream.print()
+    pairs.print()
 
 
     ssc.start()
