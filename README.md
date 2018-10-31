@@ -1,6 +1,6 @@
 # Data Intensive Computing
 
-This course holds the code for the assignments of the 2018 edition of the Data Intensive Computing course at the Royal Institute of Technology (KTH) in Stockholm, Sweden.
+This repository contains the code for the assignments of the 2018 edition of the Data Intensive Computing course at the Royal Institute of Technology (KTH) in Stockholm, Sweden.
 
 Done with my group mate [@bwhub](https://github.com/bwhub).
 
